@@ -4,11 +4,7 @@ This repository accompanies a Colab notebook for EN3150 Assignment 03.
 
 ## Contibutors
 1. FERNANDO G.S.S. 230179K - fernandogss.23@uom.lk - Computer Science & Engineering
-<<<<<<< HEAD
-2. HEWAWASAM H.R.L. 230223R - HEWAWASAM H.R.L. 230223R - Electrical Engineering
-=======
 2. HEWAWASAM H.R.L. 230223R - hewawasamhrl.23@uom.lk  - Electrical Engineering
->>>>>>> d44cbec68112495b8c7fc69b935933cf48306d0b
 3. BANDARA W.D.T. 230083K - bandarawdt.23@uom.lk - Electrical Engineering
 4. HERATH H.M.D.N.B. 230240P - herathhmdnb.23@uom.lk - Electrical Engineering
 
@@ -80,8 +76,4 @@ The main reasons are:
 For all experiments, the images are resized to:
 
 ```text
-<<<<<<< HEAD
 64 × 64 × 3
-=======
-64 × 64 × 3
->>>>>>> d44cbec68112495b8c7fc69b935933cf48306d0b
