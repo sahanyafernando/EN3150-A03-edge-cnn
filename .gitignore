@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Datasets and generated training artifacts
+tfds_data/
+artifacts/
+results/
+*.keras
+*.h5
+*.weights.h5
+*.ckpt
+checkpoint
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Secrets
+.env
+*.pem
+*.key
