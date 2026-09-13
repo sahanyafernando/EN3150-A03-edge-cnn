@@ -4,7 +4,7 @@ This repository accompanies a Colab notebook for EN3150 Assignment 03.
 
 ## Contibutors
 1. FERNANDO G.S.S. 230179K - fernandogss.23@uom.lk - Computer Science & Engineering
-2. HEWAWASAM H.R.L. 230223R - HEWAWASAM H.R.L. 230223R - Electrical Engineering
+2. HEWAWASAM H.R.L. 230223R - hewawasamhrl.23@uom.lk  - Electrical Engineering
 3. BANDARA W.D.T. 230083K - bandarawdt.23@uom.lk - Electrical Engineering
 4. HERATH H.M.D.N.B. 230240P - herathhmdnb.23@uom.lk - Electrical Engineering
 
