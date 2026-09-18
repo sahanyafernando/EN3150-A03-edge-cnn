@@ -9,7 +9,7 @@
 
 The assignment requires shared data preparation, two custom CNNs, optimizer comparison, evaluation, two lightweight pretrained/SOTA networks, and a final accuracy-memory-computational-cost comparison.
 
-## Recommended notebook ownership
+## Notebook ownership
 
 ```text
 00_data_check.ipynb          -> Sahanya
