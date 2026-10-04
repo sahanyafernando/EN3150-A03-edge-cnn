@@ -1,79 +1,58 @@
 # EN3150 Assignment 03 — Resource-Constrained CNN
 
-This repository accompanies a Colab notebook for EN3150 Assignment 03.
+This repository contains the shared data pipeline and four model experiments for edge-oriented image classification with the UCI Jute Pest Dataset.
 
-## Contibutors
-1. FERNANDO G.S.S. 230179K - fernandogss.23@uom.lk - Computer Science & Engineering
-2. HEWAWASAM H.R.L. 230223R - hewawasamhrl.23@uom.lk  - Electrical Engineering
-3. BANDARA W.D.T. 230083K - bandarawdt.23@uom.lk - Electrical Engineering
-4. HERATH H.M.D.N.B. 230240P - herathhmdnb.23@uom.lk - Electrical Engineering
+## Contributors
 
-## What the notebook covers
-
-- TF Flowers image dataset
-- 64×64 RGB preprocessing
-- 70% / 15% / 15% train-validation-test split
-- Model A: standard Conv2D CNN
-- Model B: depthwise-separable CNN below 100,000 parameters
-- Adam vs SGD vs SGD+Momentum comparison
-- 20-epoch custom-model training
-- loss curves
-- accuracy, confusion matrix, macro precision and macro recall
-- model parameter count, approximate MACs, file size and epoch time
-- MobileNetV2 transfer learning
-- EfficientNetB0 transfer learning
-- final accuracy / memory / latency comparison
-- Google Drive checkpoints and automatic recovery after Colab runtime disconnects
-
-
-### Runtime-disconnect recovery
-
-The notebook uses Google Drive for:
-
-- TFDS cache,
-- Keras `BackupAndRestore`,
-- best checkpoints,
-- final models,
-- CSV logs,
-- epoch timing.
-
-If Colab disconnects, reconnect and rerun the setup/data/model-definition cells, then rerun the interrupted training cell. It should resume from the persistent backup. If a completed `final.keras` exists, that run is loaded instead of retrained.
-
-This is safer than trying to prevent Colab from disconnecting with browser scripts.
+1. FERNANDO G.S.S. — 230179K — fernandogss.23@uom.lk — Computer Science & Engineering
+2. HEWAWASAM H.R.L. — 230223R — hewawasamhrl.23@uom.lk — Electrical Engineering
+3. BANDARA W.D.T. — 230083K — bandarawdt.23@uom.lk — Electrical Engineering
+4. HERATH H.M.D.N.B. — 230240P — herathhmdnb.23@uom.lk — Electrical Engineering
 
 ## Dataset
 
-For this assignment, we selected the **TensorFlow Flowers (`tf_flowers`) dataset**.
+The experiments use the [UCI Jute Pest Dataset](https://archive.ics.uci.edu/dataset/920/jute+pest+dataset) (dataset ID 920, DOI `10.24432/C5289P`). UCI reports 7,235 images across 17 pest classes.
 
-Dataset link:
+The shared data notebook combines the archive's original folders and creates one reproducible stratified split used by every model:
 
-https://www.tensorflow.org/datasets/catalog/tf_flowers
+- Input: 64 × 64 RGB images
+- Classes: 17
+- Split: 70% training, 15% validation, 15% test
+- Random seed: 42
+- Batch size: 64
 
-The dataset contains **3,670 RGB flower images** belonging to **5 different classes**:
+The exact file assignments and class ordering are stored in a shared split manifest. This prevents the model notebooks from evaluating on different samples.
 
-- Daisy
-- Dandelion
-- Roses
-- Sunflowers
-- Tulips
+## Notebooks
 
-The dataset is available directly through **TensorFlow Datasets (TFDS)**, which makes it easy to load and use in Google Colab without manually uploading a large dataset. :contentReference[oaicite:0]{index=0}
+| Notebook | Owner | Purpose |
+| --- | --- | --- |
+| [`00_shared_data_and_final_comparison.ipynb`](notebooks/00_shared_data_and_final_comparison.ipynb) | Sahanya | Downloads and verifies the dataset, creates the shared stratified split and manifest, then combines the four result files into the final comparison. |
+| [`01_model_a_standard.ipynb`](notebooks/01_model_a_standard.ipynb) | Rajitha | Trains a higher-capacity standard CNN with Conv2D, batch normalization, max pooling, dropout, and dense layers for 30 epochs. |
+| [`02_model_b_lightweight_optimizer.ipynb`](notebooks/02_model_b_lightweight_optimizer.ipynb) | Dhilanka | Builds a depthwise-separable CNN with fewer than 100,000 trainable parameters and compares Adam, SGD, and SGD with momentum over 20 epochs each. The optimizer is selected using validation performance only. |
+| [`03_mobilenetv2.ipynb`](notebooks/03_mobilenetv2.ipynb) | Rajitha | Trains an ImageNet-pretrained MobileNetV2 classifier head for 5 epochs, then fine-tunes the final 20 backbone layers for 15 epochs. |
+| [`04_efficientnetb0.ipynb`](notebooks/04_efficientnetb0.ipynb) | Thiwanka | Trains an ImageNet-pretrained EfficientNetB0 classifier head for 5 epochs, then fine-tunes the final 20 backbone layers for 10 epochs. |
 
-### Why we selected this dataset
+## Experiment outputs
 
-We selected the `tf_flowers` dataset because it is suitable for the requirements of this assignment.
+Each model is evaluated on the same held-out test split and reports:
 
-The main reasons are:
+- Accuracy, macro precision, and macro recall
+- Confusion matrix and classification report
+- Total/trainable parameter count
+- Saved model size
+- Average epoch time and inference latency
+- Approximate MACs where implemented
 
-- It is an **image classification dataset** with multiple classes.
-- It is not CIFAR-10, which is not allowed for this assignment.
-- The dataset is not very large, so it is practical to train several models within the available Colab resources and time.
-- The images can be resized to **64×64 pixels**, which allows us to simulate an edge or resource-constrained image classification environment.
-- It has enough images and visual variation to properly compare the performance of a standard CNN, a lightweight CNN, and pre-trained models.
-- It is directly supported by TensorFlow Datasets, therefore the same dataset and data split can easily be reproduced by all group members.
-- Since our assignment mainly focuses on the trade-off between **accuracy, memory footprint, and computational cost**, this dataset gives us a simple and manageable problem where we can focus more on comparing the models rather than spending too much time on dataset preparation.
+The model notebooks export `model_a.json`, `model_b.json`, `mobilenetv2.json`, and `efficientnetb0.json` to `EN3150_A03_SHARED/shared_results_jute_pest/` in Google Drive. Notebook 00 reads those files and produces `final_model_comparison.csv` plus accuracy-versus-size and accuracy-versus-parameter plots.
 
-For all experiments, the images are resized to:
+## Running in Google Colab
 
-```text
-64 × 64 × 3
+1. Run notebook 00 first to download the UCI archive and create `jute_pest_split_manifest.csv` and `dataset_summary.json`.
+2. Make the `EN3150_A03_SHARED` Drive folder available to every group member.
+3. Run notebooks 01–04 using the same shared manifest.
+4. After all four JSON result files exist, rerun the final-comparison section of notebook 00.
+
+Personal Drive directories hold dataset caches, checkpoints, training logs, and plots. The shared directory holds only the split metadata and compact cross-model results. Keras checkpoints and `BackupAndRestore` support recovery after a Colab runtime disconnect.
+
+Do not commit the downloaded dataset archive, extracted images, checkpoints, or trained model files to Git.
